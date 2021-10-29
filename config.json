@@ -2,5 +2,5 @@
     "font_fix": 120,
     "font": "caveat.ttf",
     "data": "lots and lots and lots and lots and lots and lots and lots and lots of data",
-    "square_color": "black"
+    "square_color": [40,40,40]
 }

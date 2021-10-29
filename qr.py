@@ -3,7 +3,7 @@ from PIL import Image
 from qrcode.image import styledpil
 from qrcode.image.styledpil import StyledPilImage
 from qrcode.image.styles.moduledrawers import RoundedModuleDrawer
-from qrcode.image.styles.colormasks import RadialGradiantColorMask
+from qrcode.image.styles.colormasks import RadialGradiantColorMask, SolidFillColorMask, SquareGradiantColorMask
 from wand import font
 from wand.image import Image as WandImage
 from wand.font import Font
@@ -11,7 +11,7 @@ import json
 
 config = json.load(open('config.json'))
 font_fix = int(config["font_fix"])
-square_color = config["square_color"]
+square_color = tuple(config["square_color"])
 data = config["data"]
 font = config["font"]
 print(config)
@@ -41,7 +41,7 @@ sx, sy = img_3.size
 copy_region = img_3.crop( ( int(sx/4)*2, 0, int(sy/4)*3, sy ) )
 csx, csy = copy_region.size
 
-# img_3 = qr.make_image(image_factory=StyledPilImage, color_mask=RadialGradiantColorMask((255,0,0)), module_drawer=RoundedModuleDrawer())
+# img_3 = qr.make_image(embedded_image=Image.open("logo_middle.png"), color_mask=SquareGradiantColorMask(square_color), image_factory=StyledPilImage, module_drawer=RoundedModuleDrawer())
 
 new_im = Image.new('RGB', (sx*3, sy*3), (255,255,255))
 for ix in range(12):
@@ -73,6 +73,11 @@ logo = Image.open('logo.png')
 size = (  int(new_im.size[0]/4), int(new_im.size[1]/4) )
 logo.thumbnail(size, Image.ANTIALIAS)
 new_im.paste( logo, (int(new_im.size[0]/2) - int(logo.size[0]/2), int(new_im.size[1]/8)*7 - int(logo.size[1]/2) ), logo )
+
+logo = Image.open('logo_middle.png')
+size = (  int(new_im.size[0]/4), int(new_im.size[1]/4) )
+logo.thumbnail(size, Image.ANTIALIAS)
+new_im.paste( logo, (int(new_im.size[0]/2) - int(logo.size[0]/2), int(new_im.size[1]/2) - int(logo.size[1]/2) ), logo )
 
 
 new_im.save("demo.png")
