@@ -8,12 +8,16 @@ from wand import font
 from wand.image import Image as WandImage
 from wand.font import Font
 import json
+from amzqr import amzqr
+import os
+
 
 config = json.load(open('config.json'))
 font_fix = int(config["font_fix"])
 square_color = tuple(config["square_color"])
 data = config["data"]
 font = config["font"]
+divider = config["divider"]
 print(config)
 
 with WandImage() as img:
@@ -26,20 +30,51 @@ with WandImage() as img:
     img.save(filename='text.png')
     img.format = 'png'
 
-qr = qrcode.QRCode(
-    version=2,
-    error_correction=qrcode.constants.ERROR_CORRECT_M,
-    box_size=20,
-    border=0,
-)
-qr.add_data(data)
+# qr = qrcode.QRCode(
+#     version=2,
+#     error_correction=qrcode.constants.ERROR_CORRECT_M,
+#     box_size=20,
+#     border=0,
+# )
+# qr.add_data(data)
 
-img_3 = qr.make_image(fill_color=square_color)
+version, level, qr_name = amzqr.run(
+    data,
+    version=1,
+    level='H',
+    picture=None,
+    colorized=False,
+    contrast=1.0,
+    brightness=1.0,
+    save_name='qr.png',
+    save_dir=os.getcwd()
+)
+img_3 = Image.open('qr.png')
+sx, sy = img_3.size
+d = divider
+img_3 = img_3.crop((sx/d, sy/d, sx-(sx/d), sy-(sy/d)))
+# img_3 = qr.make_image(fill_color=square_color)
 # img_3 = qr.make_image(image_factory=StyledPilImage, module_drawer=RoundedModuleDrawer())
 sx, sy = img_3.size
 
 copy_region = img_3.crop( ( int(sx/4)*2, 0, int(sy/4)*3, sy ) )
 csx, csy = copy_region.size
+
+version, level, qr_name = amzqr.run(
+    data,
+    version=1,
+    level='H',
+    picture="starbucks_middle.png",
+    colorized=False,
+    contrast=1.0,
+    brightness=1.0,
+    save_name='qr.png',
+    save_dir=os.getcwd()
+)
+img_3 = Image.open('qr.png')
+sx, sy = img_3.size
+img_3 = img_3.crop((sx/d, sy/d, sx-(sx/d), sy-(sy/d)))
+sx, sy = img_3.size
 
 # img_3 = qr.make_image(embedded_image=Image.open("logo_middle.png"), color_mask=SquareGradiantColorMask(square_color), image_factory=StyledPilImage, module_drawer=RoundedModuleDrawer())
 
@@ -74,10 +109,10 @@ size = (  int(new_im.size[0]/4), int(new_im.size[1]/4) )
 logo.thumbnail(size, Image.ANTIALIAS)
 new_im.paste( logo, (int(new_im.size[0]/2) - int(logo.size[0]/2), int(new_im.size[1]/8)*7 - int(logo.size[1]/2) ), logo )
 
-logo = Image.open('logo_middle.png')
-size = (  int(new_im.size[0]/4), int(new_im.size[1]/4) )
-logo.thumbnail(size, Image.ANTIALIAS)
-new_im.paste( logo, (int(new_im.size[0]/2) - int(logo.size[0]/2), int(new_im.size[1]/2) - int(logo.size[1]/2) ), logo )
+# logo = Image.open('logo_middle.png').convert('L')
+# size = (  int(new_im.size[0]/4), int(new_im.size[1]/4) )
+# logo.thumbnail(size, Image.ANTIALIAS)
+# new_im.paste( logo, (int(new_im.size[0]/2) - int(logo.size[0]/2), int(new_im.size[1]/2) - int(logo.size[1]/2) ), logo )
 
 
 new_im.save("demo.png")
