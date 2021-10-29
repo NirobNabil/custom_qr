@@ -2,7 +2,7 @@
     "logo_middle": "starbucks_middle.png",
     "logo": "logo.png",
     "divider": 11.41,
-    "font_fix": 50,
+    "font_fix": 75,
     "font": "caveat.ttf",
     "data": "rubbberband.github.io rubbberband.github.io",
     "square_color": [40,40,40]

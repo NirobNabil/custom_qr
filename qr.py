@@ -23,11 +23,11 @@ print(config)
 with WandImage() as img:
     img.background_color = 'white'
     img.font = Font(font, 60)  
-    img.read(filename='label: SCAN HERE                                                                         SCAN HERE                                                     SCAN HERE                                                    ')
+    img.read(filename='label: SCAN HERE                                                                               SCAN HERE                                                 SCAN HERE                                                ')
     img.virtual_pixel = 'white'
     # 360 degree arc, rotated -90 degrees
-    img.distort('arc', (360,-86))
-    img.save(filename='text.png')
+    img.distort('arc', (360,-91))
+    img.save(filename='text.png')   
     img.format = 'png'
 
 # qr = qrcode.QRCode(
@@ -98,7 +98,7 @@ white = Image.open('white.png')
 white = white.resize(new_im.size)
 text_color = white.copy()
 mask = white.copy()
-mask.paste( Image.open('text.png').resize( (white.size[0]-font_fix, white.size[1]-font_fix) ), (int(font_fix/2),int(font_fix/2)) )
+mask.paste( Image.open('text.png').resize( (white.size[0]-font_fix, white.size[1]-font_fix) ), (int(font_fix/2),int(font_fix/2)-5) )
 mask = mask.resize(new_im.size)
 mask = mask.convert('L')
 text_color.save("gg.png")
