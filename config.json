@@ -1,6 +1,10 @@
 {
-    "font_fix": 120,
-    "font": "caveat.ttf",
-    "data": "lots and lots and lots and lots and lots and lots and lots and lots of data",
-    "square_color": "black"
+    "logo_middle": "starbucks_middle.png",
+    "bottom_logo_name": "logo.png",
+    "middle_logo_name": "starbucks.png",
+    "qr_name": "demo.png",
+    "font": "Caveat.ttf",
+    "font_fix": 9,
+    "data": "rubbberband.github.io rubbberband.github.io rubbberband.github.io rubbberband.github.io rubbberband.github.io  rubbberband.github.io ",
+    "square_color": [40,40,40]
 }
