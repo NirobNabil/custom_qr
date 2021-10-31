@@ -15,7 +15,7 @@ data = config["data"]
 font = config["font"]
 bottom_logo_name = config["bottom_logo_name"]
 middle_logo_name = config["middle_logo_name"]
-qr_name = config["qr_name"]
+qr_file_name = config["qr_name"]
 
 
 with WandImage() as img:
@@ -110,4 +110,4 @@ final_img.paste( logo, \
     logo )
 
 
-final_img.save(qr_name)
+final_img.save(qr_file_name)
